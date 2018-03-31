@@ -1,7 +1,20 @@
 #!/bin/sh
-DIR=${1:-$PWD}
-ROWS=$(for f in `(builtin cd $DIR && find . -name "*.tex" -type f)`; do
-	ABS=$DIR/$f
+ARG=${1:-$PWD}
+
+if [[ -d "$ARG" ]]; then
+	# dir
+	FILES=$(builtin cd $ARG && find . -name "*.tex" -type f)
+
+elif [[ -f "$ARG" ]]; then
+	# file
+	FILES=$ARG
+else
+	echo Argument must be a file or directory!
+	exit 1
+fi
+
+ROWS=$(for f in $FILES; do
+	ABS=$(realpath $f)
 	detex $ABS | wc -w
 	wc -w $ABS | awk '{print $1}'
 	echo $f
