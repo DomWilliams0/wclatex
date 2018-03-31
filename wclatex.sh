@@ -1,20 +1,22 @@
 #!/bin/sh
-ARG=${1:-$PWD}
+ARG="${1:-$PWD}"
 
 if [[ -d "$ARG" ]]; then
 	# dir
 	FILES=$(builtin cd $ARG && find . -name "*.tex" -type f)
+	ROOT="$ARG/"
 
 elif [[ -f "$ARG" ]]; then
 	# file
-	FILES=$ARG
+	FILES="$ARG"
+	ROOT="/"
 else
 	echo Argument must be a file or directory!
 	exit 1
 fi
 
 ROWS=$(for f in $FILES; do
-	ABS=$(realpath $f)
+	ABS="$ROOT$f"
 	detex $ABS | wc -w
 	wc -w $ABS | awk '{print $1}'
 	echo $f
