@@ -17,7 +17,7 @@ fi
 
 ROWS=$(for f in $FILES; do
 	ABS="$ROOT$f"
-	detex $ABS | wc -w
+	detex -n $ABS | wc -w
 	wc -w $ABS | awk '{print $1}'
 	echo $f
 done | xargs -L3 echo | sort -h)
