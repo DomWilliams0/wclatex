@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ARG="${1:-$PWD}"
 
 if [[ -d "$ARG" ]]; then
